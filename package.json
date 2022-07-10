@@ -29,7 +29,7 @@
     "start": "serve -s build",
     "serve": "react-scripts start",
     "build": "react-scripts build",
-    "build-prod": "PUBLIC_URL=https://my-calculator-355919.uk.r.appspot.com react-scripts build",
+    "deploy": "PUBLIC_URL=https://my-calculator-355919.uk.r.appspot.com react-scripts build && gcloud app deploy --promote",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write src/**/*.ts{,x}",
