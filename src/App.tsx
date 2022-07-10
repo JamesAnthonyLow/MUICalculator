@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import { createTheme } from '@mui/material/styles'
 import { ThemeProvider } from '@emotion/react';
-import Expression, { Operand } from './Expression'
+import State from "./State"
 
 type KeyProps = { character: any, onClick: (character: any) => void, ariaLabel?: string }
 
@@ -30,50 +30,14 @@ const KeyPad: FunctionComponent<KeyProps> = ({ character, onClick, ariaLabel }) 
 }
 
 function App() {
-  const [operand, setOperand] = useState(Operand.create())
-  const [expression, setExpression] = useState(Expression.create())
-
-  function onDigitClick(character: Operand.Digit.t) {
-    if (!Expression.containsOperator(expression)) {
-      setExpression(Expression.empty(expression))
-    }
-    setOperand(Operand.addDigit(operand, character))
-  }
-
-  function onOperatorClick(character: (Expression.Operator.t | Operand.Sign.t)) {
-    if (Operand.isEmpty(operand) && Expression.isEmpty(expression)) {
-      // Operator entered first is interpreted as a "sign" of the operand
-      setOperand(Operand.addDigit(operand, character))
-    } else {
-      let expr = expression
-      if (!Operand.isEmpty(operand)) {
-        expr = Expression.addElement(expression, Operand.toNumber(operand))
-      }
-      setOperand(Operand.empty(operand))
-      setExpression(Expression.addElement(expr, character))
-    }
-  }
-
-  function onEqualSignClick(_character: '=') {
-    let expr = expression
-    if (!Operand.isEmpty(operand)) {
-      expr = Expression.addElement(expression, Operand.toNumber(operand))
-    }
-    setOperand(Operand.empty(operand))
-    setExpression(Expression.evaluate(expr))
-  }
-
-  function onClearEntryClick(_character: 'CE') {
-    setExpression(Expression.empty(expression))
-    setOperand(Operand.empty(operand))
-  }
-
-  const expressionString = Expression.toString(expression)
-  const operandString = Operand.toString(operand)
-  const displayValue = [expressionString, operandString].filter(string => string !== '').join(" ")
-  const textFieldValue = Expression.isEmpty(expression) && Operand.isEmpty(operand) ? "0" : displayValue
+  const state = State.useHooks()
 
   const theme = createTheme({ typography: { fontFamily: "'Rubik Mono One', sans-serif" } })
+
+  const onDigitClick: any = (character: any) => { State.onDigitClick(state, character) }
+  const onOperatorClick: any = (character: any) => { State.onOperatorClick(state, character) }
+  const onEqualSignClick: any = (character: any) => { State.onEqualSignClick(state, character) }
+  const onClearEntryClick: any = (character: any) => { State.onClearEntryClick(state, character) }
 
   return (
     <ThemeProvider theme={theme}>
@@ -87,9 +51,9 @@ function App() {
         <Paper variant="elevation" className="calculator" sx={{ margin: "10px 0px", padding: "20px", background: "#2a2436" }}>
           <TextField
             variant="filled"
-            value={textFieldValue}
+            value={State.displayValue(state)}
             className="display"
-            inputProps={{ "role": "math", "aria-label": textFieldValue }}
+            inputProps={{ "role": "math", "aria-label": State.displayValue(state) }}
             sx={{ width: "100%", background: "#fcf3d4" }}
             multiline
           />
