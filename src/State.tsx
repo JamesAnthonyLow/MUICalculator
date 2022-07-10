@@ -50,6 +50,20 @@ namespace State {
         t.setOperand(Operand.empty(t.operand))
     }
 
+    export const onClick: (t: t, character: any) => void = (t, character) => {
+        const isOperator = Expression.Operator.all.find(op => op === character) !== undefined
+        if (typeof (character) === 'number' || character === '.') {
+            onDigitClick(t, character)
+        } else if (isOperator) {
+            onOperatorClick(t, character)
+        } else if (character === '=') {
+            onEqualSignClick(t, character)
+        } else if (character === 'CE') {
+            onClearEntryClick(t, character)
+        }
+
+    }
+
     export const displayValue: (t: t) => string = (t) => {
         const expressionString = Expression.toString(t.expression)
         const operandString = Operand.toString(t.operand)

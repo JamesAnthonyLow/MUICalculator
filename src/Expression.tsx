@@ -50,7 +50,9 @@ export namespace Operand {
 
 namespace Expression {
     export namespace Operator {
-        export type t = '+' | '-'
+        export const all = ['+', '-'] as const
+
+        export type t = typeof all[number]
 
         export const compute: (t: t, a: number, b: number) => number = (t, a, b) => {
             const match = {

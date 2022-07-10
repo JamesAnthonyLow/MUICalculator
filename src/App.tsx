@@ -34,10 +34,7 @@ function App() {
 
   const theme = createTheme({ typography: { fontFamily: "'Rubik Mono One', sans-serif" } })
 
-  const onDigitClick: any = (character: any) => { State.onDigitClick(state, character) }
-  const onOperatorClick: any = (character: any) => { State.onOperatorClick(state, character) }
-  const onEqualSignClick: any = (character: any) => { State.onEqualSignClick(state, character) }
-  const onClearEntryClick: any = (character: any) => { State.onClearEntryClick(state, character) }
+  const onClick: any = (character: any) => { State.onClick(state, character) }
 
   return (
     <ThemeProvider theme={theme}>
@@ -58,21 +55,21 @@ function App() {
             multiline
           />
           <Grid container>
-            <KeyPad character={1} onClick={onDigitClick} />
-            <KeyPad character={2} onClick={onDigitClick} />
-            <KeyPad character={3} onClick={onDigitClick} />
-            <KeyPad character={4} onClick={onDigitClick} />
-            <KeyPad character={5} onClick={onDigitClick} />
-            <KeyPad character={6} onClick={onDigitClick} />
-            <KeyPad character={7} onClick={onDigitClick} />
-            <KeyPad character={8} onClick={onDigitClick} />
-            <KeyPad character={9} onClick={onDigitClick} />
-            <KeyPad character={0} onClick={onDigitClick} />
-            <KeyPad character={'.'} onClick={onDigitClick} />
-            <KeyPad character={'+'} onClick={onOperatorClick} />
-            <KeyPad character={'-'} onClick={onOperatorClick} />
-            <KeyPad character={'='} onClick={onEqualSignClick} />
-            <KeyPad character={'CE'} onClick={onClearEntryClick} ariaLabel={"Clear Entry"} />
+            <KeyPad character={1} onClick={onClick} />
+            <KeyPad character={2} onClick={onClick} />
+            <KeyPad character={3} onClick={onClick} />
+            <KeyPad character={4} onClick={onClick} />
+            <KeyPad character={5} onClick={onClick} />
+            <KeyPad character={6} onClick={onClick} />
+            <KeyPad character={7} onClick={onClick} />
+            <KeyPad character={8} onClick={onClick} />
+            <KeyPad character={9} onClick={onClick} />
+            <KeyPad character={0} onClick={onClick} />
+            <KeyPad character={'.'} onClick={onClick} />
+            <KeyPad character={'+'} onClick={onClick} />
+            <KeyPad character={'-'} onClick={onClick} />
+            <KeyPad character={'='} onClick={onClick} />
+            <KeyPad character={'CE'} onClick={onClick} ariaLabel={"Clear Entry"} />
           </Grid>
         </Paper>
       </Box>
