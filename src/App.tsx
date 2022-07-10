@@ -22,10 +22,17 @@ namespace Operand {
     return []
   }
 
+  export const containsDecimal: (t: t) => boolean = (t) => {
+    return t.find(el => el === '.') !== undefined
+  }
+
   export const addDigit: (t: t, digit: Digit.t) => t = (t, digit) => {
     // 0 is first digit added to operand
     if (digit === 0 && t.length === 0) {
       // Do nothing
+      return t
+    } else if (containsDecimal(t) && digit === '.') {
+      // Do not add a decimal if there already is one
       return t
     } else {
       return [...t, digit]
