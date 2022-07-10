@@ -1,5 +1,5 @@
 import App from "../App"
-import { render, screen, fireEvent } from '@testing-library/react' // (or /dom, /vue, ...)
+import { render, screen, fireEvent } from '@testing-library/react'
 
 test('Addition and subtraction', () => {
     render(<App />)
