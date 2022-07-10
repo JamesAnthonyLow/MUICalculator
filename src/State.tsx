@@ -60,6 +60,8 @@ namespace State {
             onEqualSignClick(t, character)
         } else if (character === 'CE') {
             onClearEntryClick(t, character)
+        } else {
+            throw new Error(`Unhandled character: ${character}`)
         }
 
     }
