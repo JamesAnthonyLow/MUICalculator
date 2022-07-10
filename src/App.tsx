@@ -8,13 +8,14 @@ import { createTheme } from '@mui/material/styles'
 import { ThemeProvider } from '@emotion/react';
 import Expression, { Operand } from './Expression'
 
-type KeyProps = { character: any, onClick: (character: any) => void }
+type KeyProps = { character: any, onClick: (character: any) => void, ariaLabel?: string }
 
-const KeyPad: FunctionComponent<KeyProps> = ({ character, onClick }) => {
+const KeyPad: FunctionComponent<KeyProps> = ({ character, onClick, ariaLabel }) => {
   const className = `keypad-${character}`
   return (
     <Grid item xs={4}>
       <Button
+        aria-label={ariaLabel ? ariaLabel : character}
         sx={{ width: "100%" }}
         className={className}
         variant='contained'
@@ -70,6 +71,7 @@ function App() {
   const expressionString = Expression.toString(expression)
   const operandString = Operand.toString(operand)
   const displayValue = [expressionString, operandString].filter(string => string !== '').join(" ")
+  const textFieldValue = Expression.isEmpty(expression) && Operand.isEmpty(operand) ? "0" : displayValue
 
   const theme = createTheme({ typography: { fontFamily: "'Rubik Mono One', sans-serif" } })
 
@@ -85,8 +87,9 @@ function App() {
         <Paper variant="elevation" className="calculator" sx={{ margin: "10px 0px", padding: "20px", background: "#2a2436" }}>
           <TextField
             variant="filled"
-            value={Expression.isEmpty(expression) && Operand.isEmpty(operand) ? "0" : displayValue}
+            value={textFieldValue}
             className="display"
+            inputProps={{ "role": "math", "aria-label": textFieldValue }}
             sx={{ width: "100%", background: "#fcf3d4" }}
             multiline
           />
@@ -105,7 +108,7 @@ function App() {
             <KeyPad character={'+'} onClick={onOperatorClick} />
             <KeyPad character={'-'} onClick={onOperatorClick} />
             <KeyPad character={'='} onClick={onEqualSignClick} />
-            <KeyPad character={'CE'} onClick={onClearEntryClick} />
+            <KeyPad character={'CE'} onClick={onClearEntryClick} ariaLabel={"Clear Entry"} />
           </Grid>
         </Paper>
       </Box>
