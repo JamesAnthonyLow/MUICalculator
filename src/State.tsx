@@ -23,9 +23,10 @@ namespace State {
     }
 
     export const onOperatorClick: (t: t, character: (Expression.Operator.t | Operand.Sign.t)) => void = (t, character) => {
-        if (Operand.isEmpty(t.operand) && Expression.isEmpty(t.expression)) {
+        if (Operand.noDigits(t.operand) && Expression.isEmpty(t.expression)) {
             // Operator entered first is interpreted as a "sign" of the operand
-            t.setOperand(Operand.addDigit(t.operand, character))
+            let operand = Operand.empty(t.operand)
+            t.setOperand(Operand.addDigit(operand, character))
         } else {
             let expr = t.expression
             if (!Operand.isEmpty(t.operand)) {

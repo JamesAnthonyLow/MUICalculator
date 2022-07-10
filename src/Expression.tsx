@@ -45,7 +45,13 @@ export namespace Operand {
         return []
     }
 
-    export const isEmpty: (t: t) => boolean = (t) => { return t.length === 0 }
+    export const noDigits: (t: t) => boolean = (t) => {
+        return t.every(op => typeof op !== 'number') || t.length === 0
+    }
+
+    export const isEmpty: (t: t) => boolean = (t) => {
+        return t.length === 0
+    }
 }
 
 namespace Expression {
