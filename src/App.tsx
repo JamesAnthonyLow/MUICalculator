@@ -1,8 +1,11 @@
-import { FunctionComponent, Fragment, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
+import Box from '@mui/material/Box'
+import { createTheme } from '@mui/material/styles'
+import { ThemeProvider } from '@emotion/react';
 
 namespace Operand {
   export namespace Sign {
@@ -79,7 +82,7 @@ namespace Expression {
   }
 
   export const toString: (t: t) => string = (t) => {
-    return t.join("")
+    return t.join(" ")
   }
 
   export const isEmpty: (t: t) => boolean = (t) => { return t.length === 0 }
@@ -126,6 +129,7 @@ const KeyPad: FunctionComponent<KeyProps> = ({ character, onClick }) => {
       <Button
         sx={{ width: "100%" }}
         className={className}
+        variant='contained'
         onClick={() => {
           onClick(character)
         }}
@@ -175,19 +179,30 @@ function App() {
     setOperand(Operand.empty(operand))
   }
 
-  const displayValue = Expression.toString(expression) + Operand.toString(operand)
+  const expressionString = Expression.toString(expression)
+  const operandString = Operand.toString(operand)
+  const displayValue = [expressionString, operandString].filter(string => string !== '').join(" ")
+
+  const theme = createTheme({ typography: { fontFamily: "'Rubik Mono One', sans-serif" } })
 
   return (
-    <Fragment>
-      <Paper variant="elevation" className="calculator" sx={{ margin: "10px 0px", padding: "20px" }}>
-        <TextField
-          variant="filled"
-          value={Expression.isEmpty(expression) && Operand.isEmpty(operand) ? "0" : displayValue}
-          className="display"
-          sx={{ width: "100%" }}
-        />
-        <Grid container>
-          <Grid className="numPad" container sx={{ width: "80%" }}>
+    <ThemeProvider theme={theme}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+        sx={{ background: "#ccd4cd" }}
+      >
+        <Paper variant="elevation" className="calculator" sx={{ margin: "10px 0px", padding: "20px", background: "#2a2436" }}>
+          <TextField
+            variant="filled"
+            value={Expression.isEmpty(expression) && Operand.isEmpty(operand) ? "0" : displayValue}
+            className="display"
+            sx={{ width: "100%", background: "#fcf3d4" }}
+            multiline
+          />
+          <Grid container>
             <KeyPad character={1} onClick={onDigitClick} />
             <KeyPad character={2} onClick={onDigitClick} />
             <KeyPad character={3} onClick={onDigitClick} />
@@ -204,9 +219,9 @@ function App() {
             <KeyPad character={'='} onClick={onEqualSignClick} />
             <KeyPad character={'CE'} onClick={onClearEntryClick} />
           </Grid>
-        </Grid>
-      </Paper>
-    </Fragment>
+        </Paper>
+      </Box>
+    </ThemeProvider>
   );
 }
 
