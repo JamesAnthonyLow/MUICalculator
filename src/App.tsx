@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
@@ -30,7 +30,7 @@ const KeyPad: FunctionComponent<KeyProps> = ({ character, onClick, ariaLabel }) 
 }
 
 function App() {
-  const state = State.useHooks()
+  const state = State.create(useState)
 
   const theme = createTheme({ typography: { fontFamily: "'Rubik Mono One', sans-serif" } })
 
