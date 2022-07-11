@@ -28,12 +28,14 @@ namespace State {
             let operand = Operand.empty(t.operand)
             t.setOperand(Operand.addDigit(operand, character))
         } else {
-            let expr = t.expression
+            let expression = t.expression
             if (!Operand.isEmpty(t.operand)) {
-                expr = Expression.addElement(t.expression, Operand.toNumber(t.operand))
+                expression = Expression.addElement(t.expression, Operand.toNumber(t.operand))
             }
             t.setOperand(Operand.empty(t.operand))
-            t.setExpression(Expression.addElement(expr, character))
+            if (!Expression.containsOperator(expression)) {
+                t.setExpression(Expression.addElement(expression, character))
+            }
         }
     }
 

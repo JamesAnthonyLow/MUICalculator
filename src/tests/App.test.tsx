@@ -126,9 +126,25 @@ test("Addition and subtraction", () => {
     expect(textField.textContent).toEqual("+3");
 
     click("Clear Entry");
+
     // Operator first after sign
     click("+");
     click("-");
     click("3");
     expect(textField.textContent).toEqual("-3");
+
+    click("Clear Entry");
+
+    // = after .
+    click(".");
+    click("=");
+    expect(textField.textContent).toEqual("0");
+
+    click("Clear Entry");
+
+    // Cannot enter multiple operators
+    click("3")
+    click("+")
+    click("+")
+    expect(textField.textContent).toEqual("3 +");
 });

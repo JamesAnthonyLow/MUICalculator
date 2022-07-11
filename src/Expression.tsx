@@ -33,20 +33,20 @@ export namespace Operand {
     export const toString: (t: t) => string = (t) => {
         return t.join("")
     }
+    export const noDigits: (t: t) => boolean = (t) => {
+        return t.every(op => typeof op !== 'number') || t.length === 0
+    }
+
 
     export const toNumber: (t: t) => number = (t) => {
-        if (t.length === 0) {
+        if (noDigits(t)) {
             return 0
         }
-        return +toString(t)
+        return parseFloat(toString(t))
     }
 
     export const empty: (t: t) => t = (t) => {
         return []
-    }
-
-    export const noDigits: (t: t) => boolean = (t) => {
-        return t.every(op => typeof op !== 'number') || t.length === 0
     }
 
     export const isEmpty: (t: t) => boolean = (t) => {
