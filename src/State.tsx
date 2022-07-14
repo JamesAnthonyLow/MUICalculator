@@ -31,7 +31,9 @@ namespace State {
         if (Operand.noDigits(t.operand) && Expression.isEmpty(t.expression)) {
             // Operator entered first is interpreted as a "sign" of the operand
             let operand = Operand.empty(t.operand)
-            t.operand = Operand.addDigit(operand, character)
+            if (Operand.Sign.all.find(s => s === character) !== undefined) {
+                t.operand = Operand.addDigit(operand, character)
+            }
         } else {
             let expression = t.expression
             if (!Operand.isEmpty(t.operand)) {

@@ -1,10 +1,24 @@
 export namespace Operand {
     export namespace Sign {
-        export type t = '+' | '-'
+        export const all = ['+', '-'] as const
+
+        export type t = typeof all[number]
+    }
+
+    export namespace Point {
+        export type t = '.'
+
+        export const ofChar: (char: any) => t | undefined = (char) => {
+            if (char === '.') {
+                return '.'
+            } else {
+                return undefined
+            }
+        }
     }
 
     export namespace Digit {
-        export type t = number | '.' | Sign.t
+        export type t = number | Point.t | Sign.t
     }
 
     export type t = readonly Digit.t[]
@@ -14,7 +28,7 @@ export namespace Operand {
     }
 
     export const containsDecimal: (t: t) => boolean = (t) => {
-        return t.find(el => el === '.') !== undefined
+        return t.find(Point.ofChar) !== undefined
     }
 
     export const addDigit: (t: t, digit: Digit.t) => t = (t, digit) => {
@@ -73,7 +87,7 @@ namespace Expression {
         export type t = number | Operator.t
 
         export const isOperatorType: (t: t) => boolean = (t: t) => {
-            return (typeof (t) !== 'number')
+            return Operator.all.find(op => op === t) !== undefined
         }
     }
 
